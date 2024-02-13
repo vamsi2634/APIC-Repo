@@ -14,7 +14,7 @@ plans:
     apis:
       wso21.0.0: {}
       jose1.0.0: {}
-      encrypt_data_jose_mod1.0.0: {}
+      encrypt_data_jose-mod1.0.0: {}
       openurl1.0.0: {}
       url_invoke_script1.0.0: {}
 apis:
@@ -23,7 +23,7 @@ apis:
   jose1.0.0:
     $ref: jose_1.0.0.yaml
   encrypt_data_jose_mod1.0.0:
-    $ref: encrypt_data_jose_mod_1.0.0.yaml
+    $ref: encrypt_data_jose_mod-1.0.0.yaml
   openurl1.0.0:
     $ref: openurl_1.0.0.yaml
   url_invoke_script1.0.0:
