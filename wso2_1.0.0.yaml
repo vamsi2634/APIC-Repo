@@ -1,6 +1,6 @@
 info:
   version: 1.0.0
-  title: WSO2
+  title: wso2
   name: wso2
 gateways:
   - datapower-api-gateway
@@ -12,22 +12,10 @@ plans:
       default:
         value: 100/1hour
     apis:
-      wso21.0.0: {}
-      jose1.0.0: {}
-      encrypt_data_jose-mod1.0.0: {}
-      openurl1.0.0: {}
-      url_invoke_script1.0.0: {}
+      invoke_api1.0.0: {}
 apis:
-  wso21.0.0:
-    $ref: wso2_1.0.0.yaml
-  jose1.0.0:
-    $ref: jose_1.0.0.yaml
-  encrypt_data_jose_mod1.0.0:
-    $ref: encrypt_data_jose_mod-1.0.0.yaml
-  openurl1.0.0:
-    $ref: openurl_1.0.0.yaml
-  url_invoke_script1.0.0:
-    $ref: url_invoke_script_1.0.0.yaml
+  invoke_api1.0.0:
+    $ref: invoke_api_1.0.0.yaml
 visibility:
   view:
     type: public
