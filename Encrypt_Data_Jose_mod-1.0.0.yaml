@@ -1,0 +1,280 @@
+swagger: '2.0'
+info:
+  title: Encrypt_Data_Jose_mod
+  x-ibm-name: encrypt_data_jose_mod
+  version: 1.0.0
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - set-variable:
+          version: 2.0.0
+          title: set-variable
+          actions:
+            - set: hs256-key
+              value: '{   "alg": "HS256",   "kty": "oct",   "use": "enc",   "k": "rl9wTW8dokgL-3PkcIO72pAvI7qWvkHB2DVDXFUJFh0",   "kid": "hs256-key" }'
+              type: any
+      - operation-switch:
+          version: 2.0.0
+          title: operation-switch
+          case:
+            - operations:
+                - verb: post
+                  path: /encrypt
+              execute:
+                - gatewayscript:
+                    version: 2.0.0
+                    title: gatewayscript
+                    source: |2-
+                       var jose = require('jose');
+
+                      var apim =require("apim");
+                      //var crypto = require('crypto')
+                       //var jwk = require( 'jwk')
+
+
+                       /*var console = { 'log':function(str){if ($(debugMode))
+                                            {var urlopen = require ('urlopen');
+
+                                            var options = { target: "$(debugURL)", method: 'post',
+                                            contentType: 'application/json', data : {'log':str}};
+
+
+
+                                            urlopen.open (options, function (error, response) {});}}}
+
+
+
+                                            var test = "Hello World sachin";
+
+                                            console.log(test);
+
+
+                                            test = "Goodbye World sachin";
+
+                                            console.log(test);*/
+
+
+                                            var jwkkey1 = apim.getvariable( 'hs256-key')
+
+
+                                            var jwkkey = JSON.parse( jwkkey1)
+
+
+                                            var jsonData = apim.getvariable("request.body");
+
+
+
+                                            // get the input from the request
+
+
+                                            apim.readInputAsJSON(function(readAsBufferError, jsonData)
+                                            {
+                                                if (readAsBufferError) {
+                                                    console.log('Error on readAsBuffer: ' + readAsBufferError);
+                                                } else {
+                                                
+                                                
+                                                    //console.log (JSON.stringify(jsonData))
+                                                    var jsonString = JSON.stringify(jsonData);
+                                                    
+                                                     try {
+                                                        //--------------------------------------------------------------------------
+                                                        // Example: JWE Object Compact Serialization Format
+                                                        //--------------------------------------------------------------------------
+                                                        // Create a jweHeader object and specify the encryption algorithm to use
+
+                                                        var jweHdr = jose.createJWEHeader('A128CBC-HS256');
+                                                        // Set the algorithm header parameter in the protected header
+
+                                                        jweHdr.setProtected('alg', 'dir');
+
+                                                        // Set the key configuration object to process the encrypted key
+                                                        jweHdr.setKey(jwkkey);
+                                                        
+
+                                                        // Specify which jweHeader defines how to encrypt this message then
+                                                        // update the jweEncrypter with the message to be encrypted then
+                                                        // encrypt the JWE Encryption object using the compact serialization
+                                                        // output_format as specified
+                                                        jose.createJWEEncrypter(jweHdr).update(jsonString, 'ascii').encrypt('compact', function(error, jweCompactObj) {
+                                                            if (error) {
+                                                                console.log( error)
+                                                                // An error occurred during the encrypt process and is passed back
+                                                                // via the error parameter since .encrypt is an asynchronous call
+                                                                // write the error to the output context
+                                                                session.reject(error);
+                                                                return;
+                                                            } else {
+                                                                console.log ("sachin encryption " + jweCompactObj)
+                                                                jsonData = jweCompactObj;
+                                                                
+                                                                console.log ( jsonData);
+                                                            apim.setvariable('message.body', jsonData);
+                                                            }
+                                                        }); // encrypt function
+                                                    } catch (e) {
+                                                        session.reject("jwe-encrypt-compact.js error: " + e);
+                                                        return;
+                                                    }
+
+                                                }
+                                                });
+            - operations:
+                - verb: post
+                  path: /decrypt
+              execute:
+                - gatewayscript:
+                    version: 2.0.0
+                    title: gatewayscript
+                    source: |2-
+                                            var apim =require("apim");
+                                            var jose =require('jose');
+
+                                            //var crypto = require('crypto')
+
+                                            //var jwk = require( 'jwk')
+
+
+                                            /*
+
+                                            var console = { 'log':function(str){if ($(debugMode)) {var
+                                            urlopen = require ('urlopen');
+
+                                            var options = { target: "$(debugURL)", method: 'post',
+                                            contentType: 'application/json', data :
+                                            {'log':str}};urlopen.open (options, function (error,
+                                            response) {});}}}
+
+
+
+                                            var test = "Hello World sachin";
+
+                                            console.log(test);
+
+
+                                            test = "Goodbye World sachin";
+
+                                            console.log(test); */
+
+
+                                            var jsonData=apim.getvariable("request.body");
+
+
+                                            var jwkkey1 = apim.getvariable( 'hs256-key')
+
+
+                                            var jwkkey = JSON.parse( jwkkey1)
+
+
+                                            // get the input from the request
+
+
+                                            apim.readInputAsJSON(function(readAsBufferError, jsonData)
+                                            {
+                                                if (readAsBufferError) {
+                                                    console.log('Error on readAsBuffer: ' + readAsBufferError);
+                                                } else {
+                                                
+                                                
+                                                    console.log (JSON.stringify(jsonData))
+                                                    
+                                                     try {
+                                                       
+                                            // jwe object, compact serialization.
+
+                                            var jweobj = jose.parse(jsonData.Token);
+
+                                            jweobj.setKey(jwkkey);
+
+                                            jose.createJWEDecrypter(jweobj).decrypt( 'utf8',
+                                            function(error, plaintext) {
+                                                if (error) {
+                                                     apim.setvariable( "message.body", "jwe decrypt fail: "+error);
+                                                 } else {
+                                                    var data = plaintext ;
+                                                     apim.setvariable( "message.body", data ) 
+                                                 }
+                                            });
+                                                    } catch (e) {
+                                                        session.reject("jwe-encrypt-compact.js error: " + e);
+                                                        return;
+                                                    }
+
+                                                }
+                                                });
+          otherwise: []
+    finally: []
+  properties:
+    target-url:
+      value: http://example.com/operation-name
+      description: The URL of the target service
+      encoded: false
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+  servers:
+    - url: https://192.168.3.183:9443/ibmeidiko/sandbox/encrypt_data_jose_mod
+      description: ''
+      type:
+        - production
+        - development
+  oauth-servers: []
+basePath: /encrypt_data_jose_mod
+paths:
+  /encrypt:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+    parameters:
+      - name: body
+        required: true
+        in: body
+        schema:
+          $ref: '#/definitions/Request'
+  /decrypt:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+    parameters:
+      - name: Token
+        required: true
+        in: body
+        schema:
+          $ref: '#/definitions/encryptText'
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+  - clientID: []
+schemes:
+  - https
+definitions:
+  Request:
+    type: object
+    example:
+      ACCOUNT_NUMBER: '6545215454'
+      NAME: VAMSI
+      IFSC: EDK08
+      BALANCE: '8500'
+      BRANCH: PEDDAPURAM
+  encryptText:
+    type: string
+    example:
+      Token: gfgfkjgjygfi
+

@@ -1,0 +1,90 @@
+info:
+  version: 1.0.0
+  title: WSO2EI
+  name: wso2ei
+gateways:
+  - datapower-api-gateway
+plans:
+  default-plan:
+    title: Default Plan
+    description: Default Plan
+    rate-limits:
+      default:
+        value: 100/1hour
+    apis:
+      sample11.0.0: {}
+      queryapi1.1.0: {}
+      path-param-api1.0.0: {}
+      globalweather1.0.0: {}
+      practiceapi1.2.0: {}
+      transformapi1.0.0: {}
+      mapapi1.2.0: {}
+      jwt_generate_api1.0.0: {}
+      sample12.0.0: {}
+      transformapi3.0.0: {}
+      validationapi1.0.0: {}
+      databaseoperation1.0.0: {}
+      request_validation_api1.0.0: {}
+      request_validation_token_single_flow1.0.0: {}
+      josemodule1.0.0: {}
+      encrypt_data1.0.0: {}
+      encrypt-decrypt-fields-shared-symettric-key1.0.0: {}
+      encrypt_data_jose_mod1.0.0: {}
+      encrypt-decrypt-fields-asymmetric-key1.0.0: {}
+      openurl1.0.0: {}
+      fetch-user-deatils-from-ftp1.0.1: {}
+apis:
+  sample11.0.0:
+    $ref: sample1_1.0.0.yaml
+  queryapi1.1.0:
+    $ref: queryapi_1.1.0.yaml
+  path-param-api1.0.0:
+    $ref: path-param-api_1.0.0.yaml
+  globalweather1.0.0:
+    $ref: globalweather_1.0.0.yaml
+  practiceapi1.2.0:
+    $ref: practiceapi_1.2.0.yaml
+  transformapi1.0.0:
+    $ref: transformapi_1.0.0.yaml
+  mapapi1.2.0:
+    $ref: mapapi_1.2.0.yaml
+  jwt_generate_api1.0.0:
+    $ref: jwt_generate_api_1.0.0.yaml
+  sample12.0.0:
+    $ref: sample1_2.0.0.yaml
+  transformapi3.0.0:
+    $ref: transformapi_3.0.0.yaml
+  validationapi1.0.0:
+    $ref: validationapi_1.0.0.yaml
+  databaseoperation1.0.0:
+    $ref: databaseoperation_1.0.0.yaml
+  request_validation_api1.0.0:
+    $ref: request_validation_api_1.0.0.yaml
+  request_validation_token_single_flow1.0.0:
+    $ref: request_validation_token_single_flow_1.0.0.yaml
+  josemodule1.0.0:
+    $ref: josemodule_1.0.0.yaml
+  encrypt_data1.0.0:
+    $ref: encrypt_data_1.0.0.yaml
+  encrypt-decrypt-fields-shared-symettric-key1.0.0:
+    $ref: encrypt-decrypt-fields-shared-symettric-key_1.0.0.yaml
+  encrypt_data_jose_mod1.0.0:
+    $ref: encrypt_data_jose_mod_1.0.0.yaml
+  encrypt-decrypt-fields-asymmetric-key1.0.0:
+    $ref: encrypt-decrypt-fields-asymmetric-key_1.0.0.yaml
+  openurl1.0.0:
+    $ref: openurl_1.0.0.yaml
+  fetch-user-deatils-from-ftp1.0.1:
+    $ref: fetch-user-deatils-from-ftp_1.0.1.yaml
+visibility:
+  view:
+    type: public
+    orgs: []
+    tags: []
+    enabled: true
+  subscribe:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+product: 1.0.0
