@@ -15,7 +15,7 @@ plans:
       invoke_api-1.0.0: {}
 apis:
   invoke_api-1.0.0:
-    $ref: invoke_api-1.0.0
+    $ref: invoke_api_1.0.0
 visibility:
   view:
     type: public
