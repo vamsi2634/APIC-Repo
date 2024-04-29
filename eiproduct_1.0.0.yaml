@@ -12,10 +12,10 @@ plans:
       default:
         value: 100/1hour
     apis:
-      josemodule1.0.1: {}
+      josesignandverifyapi1.0.0: {}
 apis:
-  josemodule1.0.1:
-    $ref: josemodule_1.0.1.yaml
+  josesignandverifyapi1.0.0:
+    name: josesignandverifyapi:1.0.0
 visibility:
   view:
     type: public
