@@ -12,10 +12,10 @@ plans:
       default:
         value: 100/1hour
     apis:
-      test1.0.0: {}
+      test-1.0.0: {}
 apis:
   test1.0.0:
-    $ref: test_1.0.0.yaml
+    $ref: test-1.0.0.yaml
 visibility:
   view:
     type: public
