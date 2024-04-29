@@ -1,3 +1,7 @@
+958_product
+eiproduct_1.0.0.yaml
+
+
 info:
   version: 1.0.0
   title: miproduct
@@ -12,10 +16,10 @@ plans:
       default:
         value: 100/1hour
     apis:
-      test-1.0.0: {}
+      test1.0.0: {}
 apis:
   test1.0.0:
-    $ref: test-1.0.0.yaml
+    $ref: test_1.0.0.yaml
 visibility:
   view:
     type: public
