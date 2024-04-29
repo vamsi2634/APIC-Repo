@@ -12,9 +12,9 @@ plans:
       default:
         value: 100/1hour
     apis:
-      invoke_api-1.0.0: {}
+      invoke_api_1.0.0: {}
 apis:
-  invoke_api-1.0.0:
+  invoke_api_1.0.0:
     $ref: invoke_api_1.0.0
 visibility:
   view:
