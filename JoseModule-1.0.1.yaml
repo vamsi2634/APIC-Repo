@@ -1,0 +1,119 @@
+swagger: '2.0'
+info:
+  title: JoseModule
+  x-ibm-name: josemodule
+  version: 1.0.1
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-api-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - gatewayscript:
+          version: 2.0.0
+          title: gatewayscript
+          source: |-
+            // Simple JWS 'verify' example
+            //   - JSON serialization
+            //   - One signature
+            //   - Needs configurable key, signed message
+            var apim=require('apim');
+            var jose = require('jose');
+            var apim = require('local://isp/policy/apim.custom.js');
+
+            session.input.readAsJSON(function(error, json) {
+                if (error) {
+                    session.reject("Error reading input: "+error);
+                } else {
+                    // Get the name of the mgmt object to use as the key
+                    var keyValue = apim.getPolicyProperty("APIC_V10");
+
+                    // Parse the JWS object to extract the serialized values for the object's individual components.
+                    // An instance of JWSObject is returned, through which we can access the JWS content (signatures,
+                    // payload, and type - compact or json).
+                    var jwsSignedObject = jose.parse(json);
+
+                    // Access the per-signature data and set key for each signature for verification.
+                    // In this example, all signatures use the same key
+                    var signedJWSHeaders  = jwsSignedObject.getSignatures();
+                    for (var i = 0; i < signedJWSHeaders.length; i++) {
+                        var hdr = signedJWSHeaders[i];
+                          hdr.setKey(keyValue);
+                    }
+
+                    // Verify all signatures for which a key has been set.
+                    // At least one signature must have key set.
+                    var myVerifier = jose.createJWSVerifier(jwsSignedObject);
+                    myVerifier.validate( function(error){
+                        if (error) {
+                            // An error occurred during the validate process.
+                            session.reject(error.errorMessage);
+                        } else {
+                            // All signature verifications have succeeded.
+                            // Payload may be trusted.
+                            var plaintext =  jwsSignedObject.getPayload();
+                            session.output.write(plaintext);
+                        }
+                    });
+                }
+            });
+    finally: []
+    catch: []
+  properties:
+    target-url:
+      value: http://example.com/operation-name
+      description: The URL of the target service
+      encoded: false
+  activity-log:
+    enabled: true
+    success-content: activity
+    error-content: payload
+  servers:
+    - url: https://192.168.3.183:9443/apicbatch2/958-catalog/josemodule/v1
+      description: ''
+      type:
+        - production
+        - development
+    - url: https://192.168.3.183:9443/apicbatch2/958-catalog/192.168.3.183:9443/ibmeidiko/sandbox/josemodule
+      description: ''
+      type:
+        - production
+        - development
+  oauth-servers: []
+basePath: /josemodule/v1
+paths:
+  /JOSE:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+    parameters:
+      - name: Payload
+        required: false
+        in: body
+        schema:
+          $ref: '#/definitions/Request'
+securityDefinitions:
+  clientID:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+security:
+  - clientID: []
+schemes:
+  - https
+definitions:
+  Request:
+    type: object
+    example:
+      ACCOUNT_NUMBER: '6545215454'
+      NAME: VAMSI
+      IFSC: EDK08
+      BALANCE: '8500'
+      BRANCH: PEDDAPURAM
