@@ -1,0 +1,30 @@
+info:
+  version: 1.0.0
+  title: 2634product
+  name: 2634product
+gateways:
+  - datapower-api-gateway
+plans:
+  default-plan:
+    title: Default Plan
+    description: Default Plan
+    rate-limits:
+      default:
+        value: 100/1hour
+    apis:
+      tudostestapi1.0.0: {}
+apis:
+  tudostestapi1.0.0:
+    $ref: tudostestapi_1.0.0.yaml
+visibility:
+  view:
+    type: public
+    orgs: []
+    tags: []
+    enabled: true
+  subscribe:
+    type: authenticated
+    orgs: []
+    tags: []
+    enabled: true
+product: 1.0.0
