@@ -45,7 +45,6 @@ x-ibm-configuration:
       type:
         - production
         - development
-  oauth-servers: []
 basePath: /todosservice
 paths:
   /:
