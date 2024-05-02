@@ -15,7 +15,7 @@ plans:
       todosservice1.0.0: {}
 apis:
   todosservice1.0.0:
-    $ref: todosservice_1.0.0.yaml
+    $ref: todosservice-1.0.0.yaml
 visibility:
   view:
     type: public
